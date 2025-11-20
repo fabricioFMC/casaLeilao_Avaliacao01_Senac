@@ -1,17 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
-/**
- *
- * @author Adm
- */
+package view;
+
+
 public class ProdutosDTO {
     private Integer id;
-    private String nome;
+    private String  nome;
     private Integer valor;
-    private String status;
+    private String  status;
 
     public Integer getId() {
         return id;
