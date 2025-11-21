@@ -8,6 +8,9 @@ public class listagemVIEW extends javax.swing.JFrame {
 
     public listagemVIEW() {
         initComponents();
+        
+        // Carregando os dados na tabela.
+        listarProdutos();
     }
 
     @SuppressWarnings("unchecked")
@@ -187,8 +190,12 @@ public class listagemVIEW extends javax.swing.JFrame {
 
 
     private void listarProdutos(){
+      
+        // Metodo de manipulação dos dados.
+        ProdutosDAO produtosdao = new ProdutosDAO();
+        
         try {
-            ProdutosDAO produtosdao = new ProdutosDAO();
+            
             
             DefaultTableModel model = (DefaultTableModel) listaProdutos.getModel();
             model.setNumRows(0);

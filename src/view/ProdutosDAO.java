@@ -2,7 +2,7 @@
     Atividade 02:
     Projetista: Fabricio Ramos Malvar Cabral CPF 025.885.415-42
     
-    Versão: 1.1     Data: 20/1/2025
+    Versão: 1.1     Data: 20/11/2025
 
     Objetivo:
     1. Criação da conexão e desconexão do software com o banco de dados.
@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ProdutosDAO {
@@ -26,7 +27,7 @@ public class ProdutosDAO {
     PreparedStatement   prep;
     ResultSet           resultset;
         
-    ArrayList<ProdutosDTO> listagem = new ArrayList<>();
+    
     
     private conectaDAO dao;
     
@@ -62,7 +63,39 @@ public class ProdutosDAO {
     
     public ArrayList<ProdutosDTO> listarProdutos(){
         
-        return listagem;
+        conn = new conectaDAO().connectDB();
+        
+        String sql = "SELECT * FROM produtos";
+        
+        try 
+        {
+            PreparedStatement prep = this.conn.prepareStatement(sql);
+            
+            ResultSet resultset = prep.executeQuery();
+            
+            ArrayList<ProdutosDTO> listagem = new ArrayList<>();
+            
+            while (resultset.next()) 
+            { //.next retorna verdadeiro caso exista uma próxima posição dentro do array
+                
+                ProdutosDTO produtos = new ProdutosDTO();
+                
+                produtos.setId(resultset.getInt("id"));
+                produtos.setNome(resultset.getString("nome"));
+                produtos.setValor(resultset.getInt("valor"));
+                produtos.setStatus(resultset.getString("status"));
+                
+                listagem.add(produtos);
+            }
+        
+            return listagem;
+            
+        } 
+        catch (Exception e) 
+        {
+            return null;
+        }
+                
     }
     
       
