@@ -123,11 +123,18 @@ public class listagemVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
-        String id = id_produto_venda.getText();
-
+               
+        int id;
+        
+        // Metodo de acesso aos produtos e banco de dados
         ProdutosDAO produtosdao = new ProdutosDAO();
-
-        //produtosdao.venderProduto(Integer.parseInt(id));
+        
+        // Recebendo o ID da consulta
+        id = Integer.parseInt(id_produto_venda.getText());
+               
+        produtosdao.atualizar(id);
+        
+        // Atualizar o produto.
         listarProdutos();
     }//GEN-LAST:event_btnVenderActionPerformed
 
@@ -214,6 +221,6 @@ public class listagemVIEW extends javax.swing.JFrame {
         }
     
     }
-
+      
 
 }
