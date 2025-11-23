@@ -10,10 +10,16 @@
 */
 package view;
 
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 public class vendido extends javax.swing.JFrame {
 
     public vendido() {
         initComponents();
+        
+        // Carregando os dados na tabela.
+        listarProdutos();
     }
 
 
@@ -127,4 +133,35 @@ public class vendido extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable listaProdutosVendidos;
     // End of variables declaration//GEN-END:variables
+
+    private void listarProdutos(){
+      
+        // Metodo de manipulação dos dados.
+        ProdutosDAO produtosdao = new ProdutosDAO();
+         
+        try 
+        {
+            DefaultTableModel model = (DefaultTableModel) listaProdutosVendidos.getModel();
+            model.setNumRows(0);
+            
+            String status = "Vendido";
+            
+            ArrayList<ProdutosDTO> listagem = produtosdao.listarProdutos2(status);
+            
+            for(int i = 0; i < listagem.size(); i++)
+            {
+                model.addRow(new Object[]
+                {
+                    listagem.get(i).getId(),
+                    listagem.get(i).getNome(),
+                    listagem.get(i).getValor(),
+                    listagem.get(i).getStatus()
+                });
+            }
+        } 
+        catch (Exception e) 
+        {
+            
+        }
+    }
 }

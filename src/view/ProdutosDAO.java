@@ -70,7 +70,7 @@ public class ProdutosDAO {
         try 
         {
             PreparedStatement prep = this.conn.prepareStatement(sql);
-            
+                      
             ResultSet resultset = prep.executeQuery();
             
             ArrayList<ProdutosDTO> listagem = new ArrayList<>();
@@ -122,5 +122,44 @@ public class ProdutosDAO {
             //System.out.println(ex.getErrorCode());
             //return ex.getErrorCode();
         }
+    }
+    
+    public ArrayList<ProdutosDTO> listarProdutos2(String status){
+        
+        conn = new conectaDAO().connectDB();
+        
+        String sql = "SELECT * FROM produtos WHERE status LIKE ?";
+        
+        try 
+        {
+            PreparedStatement prep = this.conn.prepareStatement(sql);
+            
+            prep.setString(1,"%" + status + "%");
+            
+            ResultSet resultset = prep.executeQuery();
+            
+            ArrayList<ProdutosDTO> listagem = new ArrayList<>();
+            
+            while (resultset.next()) 
+            { //.next retorna verdadeiro caso exista uma próxima posição dentro do array
+                
+                ProdutosDTO produtos = new ProdutosDTO();
+                
+                produtos.setId(resultset.getInt("id"));
+                produtos.setNome(resultset.getString("nome"));
+                produtos.setValor(resultset.getInt("valor"));
+                produtos.setStatus(resultset.getString("status"));
+                             
+                listagem.add(produtos);
+            }
+        
+            return listagem;
+            
+        } 
+        catch (Exception e) 
+        {
+            return null;
+        }
+                
     }
  }
