@@ -70,7 +70,7 @@ public class ProdutosDAO {
         try 
         {
             PreparedStatement prep = this.conn.prepareStatement(sql);
-            
+                      
             ResultSet resultset = prep.executeQuery();
             
             ArrayList<ProdutosDTO> listagem = new ArrayList<>();
@@ -97,7 +97,69 @@ public class ProdutosDAO {
         }
                 
     }
-    
-      
+         
+    public void atualizar(int id)
+    {
+        conn = new conectaDAO().connectDB();
         
-}
+        String status = "Vendido";
+        
+        try 
+        {
+            prep = conn.prepareStatement("UPDATE produtos SET status = ? where id = ?");
+            prep.setString(1, status);
+            prep.setInt(2, id);
+            prep.executeUpdate();
+            
+            conn.close();
+            
+            JOptionPane.showMessageDialog(null,"Dados atualizados com sucesso.");
+            
+        } 
+        catch (SQLException ex) 
+        {
+            JOptionPane.showMessageDialog(null,"Erro ao atualizar: " + ex.getErrorCode());
+            //System.out.println(ex.getErrorCode());
+            //return ex.getErrorCode();
+        }
+    }
+    
+    public ArrayList<ProdutosDTO> listarProdutos2(String status){
+        
+        conn = new conectaDAO().connectDB();
+        
+        String sql = "SELECT * FROM produtos WHERE status LIKE ?";
+        
+        try 
+        {
+            PreparedStatement prep = this.conn.prepareStatement(sql);
+            
+            prep.setString(1,"%" + status + "%");
+            
+            ResultSet resultset = prep.executeQuery();
+            
+            ArrayList<ProdutosDTO> listagem = new ArrayList<>();
+            
+            while (resultset.next()) 
+            { //.next retorna verdadeiro caso exista uma próxima posição dentro do array
+                
+                ProdutosDTO produtos = new ProdutosDTO();
+                
+                produtos.setId(resultset.getInt("id"));
+                produtos.setNome(resultset.getString("nome"));
+                produtos.setValor(resultset.getInt("valor"));
+                produtos.setStatus(resultset.getString("status"));
+                             
+                listagem.add(produtos);
+            }
+        
+            return listagem;
+            
+        } 
+        catch (Exception e) 
+        {
+            return null;
+        }
+                
+    }
+ }
